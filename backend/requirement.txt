@@ -1,0 +1,12 @@
+# Backend runtime
+fastapi
+uvicorn
+python-dotenv
+pydantic
+python-multipart
+
+# AI and vector database integrations
+google-generativeai
+pinecone
+langchain-text-splitters
+pymupdf
