@@ -6,7 +6,7 @@ pydantic
 python-multipart
 
 # AI and vector database integrations
-google-generativeai
+google.genai
 pinecone
 langchain-text-splitters
 pymupdf
