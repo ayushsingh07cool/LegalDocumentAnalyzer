@@ -18,13 +18,13 @@ The platform uses Retrieval-Augmented Generation (RAG), semantic chunking, vecto
 
 # Upload Interface
 
-![Upload UI] assets/upload.png
+ assets/upload.png
 
 # 4. CHAT UI
 
 # AI Chat Interface
 
-![Chat UI] assets/chat.png
+ assets/chat.png
 
 # 5. PROCESS
 # Processing 
@@ -87,11 +87,11 @@ The platform uses Retrieval-Augmented Generation (RAG), semantic chunking, vecto
 
 ## Backend
 
-* Node.js
-* Express.js
-* Multer
-* pdf-parse
-* dotenv
+* Python 3 + FastAPI + Uvicorn
+* PyMuPDF for PDF text extraction
+* LangChain text splitters for semantic chunking
+* Google Gemini (google.genai) for embeddings / answer generation
+* Pinecone as the vector database
 
 ## AI / Vector Search
 
@@ -126,23 +126,33 @@ Grounded AI Response
 
 # Folder Structure
 
-```bash
-SemanticPdf/
-│
+Legal Document Analyser/
 ├── backend/
 │   ├── config/
+│   │   └── constants.py        # namespace, top-k, etc.
 │   ├── helpers/
+│   │   ├── pdf.py               # PDF text extraction
+│   │   ├── chunk.py              # semantic chunking
+│   │   ├── embed.py              # Gemini embeddings
+│   │   ├── pinecone.py           # Pinecone client / upsert
+│   │   ├── search.py             # similarity search
+│   │   ├── answer.py             # grounded answer generation
+│   │   ├── gemini.py              # Gemini client
+│   │   ├── prompt.py              # prompt templates
+│   │   └── upload.py              # upload pipeline orchestration
 │   ├── routes/
-│   ├── uploads/
-│   └── server.js
+│   │   ├── upload.py             # POST /upload
+│   │   └── chat.py                # POST /chat
+│   ├── server.py                  # FastAPI app entrypoint
+│   └── requirement.txt
 │
-├── semanticpdf-frontend/
-│   ├── src/
-│   ├── public/
-│   └── vite.config.js
-│
-└── README.md
-```
+└── frontend/
+    ├── src/
+    │   ├── pages/                 # HomePage, UploadPage, ChatPage
+    │   ├── components/            # DropZone, AnswerCard, SourcesPanel, etc.
+    │   ├── store/                  # AppStore (app state)
+    │   └── lib/                    # api.ts, parseAnswer.ts, utils.ts
+    └── vite.config.ts
 
 ---
 
@@ -150,10 +160,10 @@ SemanticPdf/
 
 ## 1. Clone Repository
 
-```bash
-git clone https://github.com/Bunty5600/semanticpdf.git
-cd semanticpdf
-```
+
+git clone https://github.com/ayushsingh07cool/LegalDocumentAnalyzer.git
+cd "Legal Document Analyser"
+
 
 ---
 
@@ -161,69 +171,62 @@ cd semanticpdf
 
 ## 2. Navigate to Backend
 
-```bash
 cd backend
-```
+python -m venv .venv
 
-## 3. Install Dependencies
+# activate the virtual environment
+.venv\Scripts\activate      # Windows
+source .venv/bin/activate   # macOS / Linux
 
-```bash
-npm install
-```
+pip install -r requirement.txt
 
-## 4. Create `.env`
+
+## 4. Create a backend/.env file:
 
 Create a `.env` file inside backend folder:
 
-```env
 GEMINI_API_KEY=your_gemini_api_key
 PINECONE_API_KEY=your_pinecone_api_key
 PINECONE_INDEX=semanticpdf
-```
 
----
 
-## 5. Run Backend Server
 
-```bash
-npm run dev
-```
+
 
 Backend runs on:
 
-```bash
+
 http://localhost:5000
 ```
 
----
+
 
 # Frontend Setup
 
 ## 6. Navigate to Frontend
 
-```bash
-cd ../semanticpdf-frontend
-```
+
+cd ../frontend
+npm install
 
 ## 7. Install Dependencies
 
-```bash
-npm install
-```
 
----
+npm install
+
+
+
 
 ## 8. Run Frontend
 
-```bash
+
 npm run dev
-```
+
 
 Frontend runs on:
 
-```bash
+
 http://localhost:5173
-```
 
 ---
 
@@ -296,8 +299,3 @@ SemanticPDF is evolving from a document chatbot into a scalable AI knowledge int
 
 ---
 
-# Author
-
-## Bunty Bhainsa
-
-Software Engineer • AI Systems Enthusiast • Full Stack Developer • RAG & Vector Search Explorer
